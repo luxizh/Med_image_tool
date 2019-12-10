@@ -1,5 +1,6 @@
 import os
 import pydicom
+import csv
 
 class Series_inf():
     def __init__(self,root):
@@ -9,10 +10,11 @@ class Series_inf():
         self.SeriesDescription=''
         self.SliceThickness=''
         self.SpacingBetweenSlices=''
-    def get_inf():
-        for filename in os.listdir(self.root): 
+    def get_inf(self):
+        for filename in os.listdir(self.root):
+            f_path=os.path.join(self.root,filename)
             try:
-                ds=pydicom.dcmread(filename)
+                ds=pydicom.dcmread(f_path)
             except:
                 pass
             else:
@@ -40,7 +42,9 @@ class Series_inf():
                 else:
                     pass
                 #get parameter from one file and then stop init
+                #print(1)
                 return True
+        #print(0)
         return False
         #no files or cannot read any of them
     def get_number(self):
@@ -51,30 +55,55 @@ class Series_inf():
         #count file number
         count=0
         for i in l:
-            if os.isfile(i):
+            if not os.path.isfile(i):
                 count+=1
         return count
     def get_series(self):
         return self.SeriesNumber
     def auto_write(self,savename):
+        number=self.get_number()
+        f=open(savename,'a')
+        f_csv=csv.writer(f)
+        #print([self.PatientName,self.SeriesNumber+self.SeriesDescription,number,
+        #                self.SliceThickness,self.SpacingBetweenSlices])
+        f_csv.writerow([self.PatientName,self.SeriesNumber+self.SeriesDescription,number,
+                        self.SliceThickness,self.SpacingBetweenSlices])
+        f.close()
         pass
 
 
-def batch_pro(root,savefolder): 
+def batch_sum(root,savename):
+    #print(root)
+    if os.path.isdir(root):
+        s_inf=Series_inf(root)
+        if (s_inf.get_inf()):
+            s_inf.auto_write(savename)
     for lists in os.listdir(root): 
-        c_path = os.path.join(root, lists)  
+        c_path = os.path.join(root, lists)
         if os.path.isdir(c_path):
-            s_inf=Series_inf(c_path)
-            if (s_inf.get_inf()):
-                s_inf.auto_write(savename)
-                #lack savename
-            batch_pro(c_path,savefolder)
+            batch_sum(c_path,savename)
         else:
             pass
             #print(path)
     return
 
-inputs='/Users/luxi/Desktop/Tencent-intern/med_image/test'
-inputs='/Users/luxi/Desktop/Tencent-intern/med_image/HU ZHEN XIU/DICOM'
-output='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
-batch_pro(inputs,output)
+def main():
+    root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+    savefolder='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+    if not os.path.exists(savefolder):
+        os.makefile(savefolder)
+
+    filename='summary'
+    savename=savefolder+'/'+filename+'.csv'
+    #print(savename)
+    #f=open(savename,'w')
+    #f.close()
+    f=open(savename,'w')
+    f_csv=csv.writer(f)
+    f_csv.writerow(['Date and Patient','Series and Description','Number of Slices',
+                    'Slice Thickness','Spacing Between Silces'])
+    f.close()
+    batch_sum(root,savename)
+
+if __name__ == "__main__":
+    main()
