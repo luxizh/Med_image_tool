@@ -15,7 +15,7 @@ while '.DS_Store' in l:
      l.remove('.DS_Store')
 len(l)
 '''
-
+'''
 import csv
 f=open('sum.csv','rt')
 f_csv=csv.reader(f)
@@ -33,3 +33,7 @@ w_csv=csv.writer(f)
 #w_csv.writerows(l)
 w_csv.writerow([1,2,3,4])
 f.close()
+'''
+import os
+root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+print(os.path.basename(root))

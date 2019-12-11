@@ -39,14 +39,14 @@ class Medimage_tool():
         try:
             self.anonymize()
         except:
-            print(self.filename)
+            print('cannot get information:'self.filename)
             return 0
         else:
             pass
         try:
             self.rename(s_z,i_z)
         except:
-            print(self.filename)
+            print('cannot get information:'self.filename)
             return 0
         else:
             pass
@@ -82,10 +82,11 @@ def batch_pro(root,savefolder):
             else:
                 m.auto_process()
             #print(path)
+    print('Anonymization and classifation have done!')
     return
 
 inputs='/Users/luxi/Desktop/Tencent-intern/med_image/test'
-inputs='/Users/luxi/Desktop/Tencent-intern/med_image/HU ZHEN XIU/DICOM'
+inputs='/Users/luxi/Desktop/Tencent-intern/med_image/HU ZHEN XIU'
 output='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
 batch_pro(inputs,output)
 #print (os.listdir(inputs))

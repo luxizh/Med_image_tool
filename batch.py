@@ -66,7 +66,9 @@ class Series_inf():
         f_csv=csv.writer(f)
         #print([self.PatientName,self.SeriesNumber+self.SeriesDescription,number,
         #                self.SliceThickness,self.SpacingBetweenSlices])
-        f_csv.writerow([self.PatientName,self.SeriesNumber+self.SeriesDescription,number,
+        #f_csv.writerow([self.PatientName,'S'+(self.SeriesNumber).zfill(4)+'_'+self.SeriesDescription,number,
+        #                self.SliceThickness,self.SpacingBetweenSlices])
+        f_csv.writerow([self.PatientName,os.path.basename(self.root),number,
                         self.SliceThickness,self.SpacingBetweenSlices])
         f.close()
         pass
