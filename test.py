@@ -34,6 +34,8 @@ w_csv=csv.writer(f)
 w_csv.writerow([1,2,3,4])
 f.close()
 '''
+'''
 import os
 root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
 print(os.path.basename(root))
+ '''

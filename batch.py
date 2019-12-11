@@ -71,6 +71,7 @@ class Series_inf():
         f_csv.writerow([self.PatientName,os.path.basename(self.root),number,
                         self.SliceThickness,self.SpacingBetweenSlices])
         f.close()
+        print('Summary in \''+self.root+'\' has been recorded!')
         pass
 
 
