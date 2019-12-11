@@ -35,7 +35,37 @@ w_csv.writerow([1,2,3,4])
 f.close()
 '''
 '''
+with open('A.csv','rb') as csvfile:
+    reader = csv.reader(csvfile)
+    rows= [row for row in reader]
+with open('A.csv','rb') as csvfile:
+    reader = csv.reader(csvfile)
+    column = [row[2] for row in reader]
+with open('A.csv','rb') as csvfile:
+    reader = csv.DictReader(csvfile)
+    column = [row for row in reader]
+'''
+'''
+import csv
+filnename='/Users/luxi/Desktop/Tencent-intern/med_image/test1/summary.csv'
+with open(filnename) as f:
+    f_reader=csv.reader(f)
+    h=next(f_reader)
+    rows=[row for row in f_reader]
+    print(h)
+    print(rows)
+    '''
+'''
 import os
 root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
 print(os.path.basename(root))
- '''
+'''
+'''
+l=[['a','b','1','3'],['c','b','1','2'],['z']]
+l.sort()
+print(l)
+'''
+import pickle
+f=open('todo.pkl','rb')
+print(pickle.load(f))
+f.close()

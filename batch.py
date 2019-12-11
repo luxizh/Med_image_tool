@@ -81,7 +81,9 @@ def batch_sum(root,savename):
         s_inf=Series_inf(root)
         if (s_inf.get_inf()):
             s_inf.auto_write(savename)
-    for lists in os.listdir(root): 
+    f_list=os.listdir(root)
+    f_list.sort()
+    for lists in f_list: 
         c_path = os.path.join(root, lists)
         if os.path.isdir(c_path):
             batch_sum(c_path,savename)
