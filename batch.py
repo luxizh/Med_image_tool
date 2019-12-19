@@ -63,7 +63,7 @@ class Series_inf():
     def auto_write(self,savename):
         number=self.get_number()
         f=open(savename,'a')
-        f_csv=csv.writer(f)
+        f_csv=csv.writer(f,lineterminator='\n')
         #print([self.PatientName,self.SeriesNumber+self.SeriesDescription,number,
         #                self.SliceThickness,self.SpacingBetweenSlices])
         #f_csv.writerow([self.PatientName,'S'+(self.SeriesNumber).zfill(4)+'_'+self.SeriesDescription,number,
@@ -94,17 +94,19 @@ def batch_sum(root,savename):
 
 def main():
     root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+    root='G:/class_2019'
     savefolder='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+    savefolder='G:/'
     if not os.path.exists(savefolder):
         os.makefile(savefolder)
 
-    filename='summary'
+    filename='summary2019'
     savename=savefolder+'/'+filename+'.csv'
     #print(savename)
     #f=open(savename,'w')
     #f.close()
     f=open(savename,'w')
-    f_csv=csv.writer(f)
+    f_csv=csv.writer(f,lineterminator='\n')
     f_csv.writerow(['Date and Patient','Series and Description','Number of Slices',
                     'Slice Thickness','Spacing Between Silces'])
     f.close()

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pydicom
 import os
 import pickle
@@ -26,14 +27,25 @@ class Medimage_tool():
                 str(self.ds.SeriesNumber).zfill(s_z)
                 )
         try:
-            s_path=s_path+'_'+str(self.ds.SeriesDescription)
+            sd_path=s_path+'_'+str(self.ds.SeriesDescription)
         except:
             pass
         else:
             pass
-        if not os.path.exists(s_path):
-            os.makedirs(s_path)
-        self.ds.save_as(s_path+'/'+self.filename)
+        try:
+            if not os.path.exists(sd_path):
+                os.makedirs(sd_path)
+        except:
+            if not os.path.exists(s_path):
+                os.makedirs(s_path)
+        else:
+            s_path=sd_path
+        try:
+            self.ds.save_as(s_path+'/'+self.filename)
+        except:
+            print('save error!')
+            with open('error.pkl','ab') as f:
+                pickle.dump(s_path+'/'+self.filename,f)
     def auto_process(self,s_z=4,i_z=5):
         #s_z,i_z:zero fill series and instance
         try:
@@ -51,6 +63,7 @@ class Medimage_tool():
         else:
             pass
         self.save_class(s_z)
+
 
 
 '''
@@ -87,9 +100,12 @@ def batch_pro(root,savefolder):
     return
 
 #import pickle
-def split_inputs(output_folder,input_folder=None,l_folder=[]):
-    if input_folder:
-        l_folder.extend(os.listdir(input_folder))
+def split_inputs(output_folder,input_folder=None,l_folder=None):
+    if l_folder:
+        #l_folder.extend(os.listdir(input_folder))
+        pass
+    else:
+        l_folder=os.listdir(input_folder)
     for i in l_folder:
         i_path=os.path.join(input_folder,i)
         if os.path.isdir(i_path):
@@ -99,10 +115,30 @@ def split_inputs(output_folder,input_folder=None,l_folder=[]):
         pickle.dump(l_folder,f)
         f.close()
 inputs='/Users/luxi/Desktop/Tencent-intern/med_image/test'
-inputs='/Users/luxi/Desktop/Tencent-intern/med_image'
-output='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
+#inputs='H:/Tencen_Med/2016'
+inputs='H:/Tencen_Med/2019/05'
+output='G:/class_2019'
 #batch_pro(inputs,output)
-split_inputs(output,input_folder=inputs)
+
+#split_inputs(output,input_folder=inputs)
+'''
+f=open('todo.pkl','rb')
+l_inputs=pickle.load(f)
+f.close()
+print(l_inputs)
+split_inputs(output,input_folder=inputs,l_folder=l_inputs)
+'''
+inputs='H:/普美显数据-腾讯-拜耳/2019'
+l_mon=['06-补','07','08','09','10','11']
+for mon_e in l_mon:
+    split_inputs(output,input_folder=inputs+'/'+mon_e)
+'''
+inputs='H:/Tencen_Med/2018'
+output='G:/class_2018'
+l_mon=['01','02','03','04']
+for mon_e in l_mon:
+    split_inputs(output,input_folder=inputs+'/'+mon_e)
+'''
 
 #f_todo=open('todo.pkl','r')
 #todo_folder=pickle.load(f_todo)
@@ -113,4 +149,3 @@ print('Done! All files have been preocessed!')
 #print (os.listdir(inputs))
 #print (len(os.listdir(inputs)))
 
- 

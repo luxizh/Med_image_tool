@@ -35,6 +35,7 @@ def main():
         print("no such csv file!")
     else:
         p_c.auto_p()
+        p_c.count_Patient(write=True)
     #print(savename)
     #f=open(savename,'w')
     #f.close()
