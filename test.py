@@ -65,7 +65,20 @@ l=[['a','b','1','3'],['c','b','1','2'],['z']]
 l.sort()
 print(l)
 '''
+'''
 import pickle
 f=open('todo.pkl','rb')
 print(pickle.load(f))
 f.close()
+'''
+'''
+a='1234'
+b='1'
+print(a.zfill(3))
+print(b.zfill(3))
+'''
+import imghdr
+if imghdr.what('/Users/luxi/Desktop/Tencent-intern/med_image/test/IMG-0001-00001.dcm'):
+    print('img')
+else:
+    print(None)
