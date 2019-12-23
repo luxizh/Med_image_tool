@@ -13,7 +13,7 @@ class Medimage_tool():
         self.Institution=''
     def get_patient_info(self):
         #get basic information
-        self.AnonymizeName='D'+str(self.ds.StudyDate)+'_'+str(elf.ds.PatientID)
+        self.AnonymizeName='D'+str(self.ds.StudyDate)+'_'+str(self.ds.PatientID)
         try:
             self.Institution=str(self.ds.InstitutionName)
         except:
@@ -44,8 +44,13 @@ class Medimage_tool():
         #s_z,i_z:zero fill series and instance
         #rename file as 
         pass
-        tname=self.filename.partition('.')
+        tname=self.filename.rpartition('.')
         #remain its original type
+        if tname[2]=='dcm':
+            pass
+        else:
+            tname[1]=''
+            tname[2]=''
         self.filename=('S'+str(self.ds.SeriesNumber).zfill(s_z)+'_'+
                         str(self.ds.InstanceNumber).zfill(i_z)+tname[1]+tname[2]
                         )
@@ -94,7 +99,7 @@ class Medimage_tool():
         try:
             content=self.check_id(id_set)
         except:
-            print('Error: Cannot get patient information from'+self.filename)
+            print('Error: Cannot check id from'+self.filename)
         else:
             pass
         #anonymize
@@ -164,7 +169,7 @@ def set_record(content):
     content=m.get_patient_dict(id_set)
     '''
     if content:
-        f=open(dict_name,'a')
+        f=open(idset_name,'a')
         f_csv=csv.writer(f,lineterminator='\n')
         #for windows avoiding extra empty rows
         f_csv.writerow(content)
@@ -186,7 +191,7 @@ def get_set(idset_name):
 #============================================================
 #id record prepare
 id_set_g=set()
-idset_path=''
+idset_path='I:/MRI_Breast'
 if not os.path.exists(idset_path):
     os.makedirs(idset_path)
 idset_name=idset_path+'/PatientInformation.csv'
@@ -206,6 +211,8 @@ output='G:/class_2019'
 #batch_pro(inputs,output)
 
 #split_inputs(output,input_folder=inputs)
+inputs='I:/乳腺MRI-深圳市人民医院'
+output='I:/MRI_Breast'
 '''
 f=open('todo.pkl','rb')
 l_inputs=pickle.load(f)
@@ -213,17 +220,20 @@ f.close()
 print(l_inputs)
 split_inputs(output,input_folder=inputs,l_folder=l_inputs)
 '''
+'''
 inputs='H:/普美显数据-腾讯-拜耳/2019'
 l_mon=['06-补','07','08','09','10','11']
 for mon_e in l_mon:
     split_inputs(output,input_folder=inputs+'/'+mon_e)
 '''
-inputs='H:/Tencen_Med/2018'
-output='G:/class_2018'
-l_mon=['01','02','03','04']
-for mon_e in l_mon:
-    split_inputs(output,input_folder=inputs+'/'+mon_e)
-'''
+
+inputs='I:/乳腺MRI-深圳市人民医院'
+output='I:/MRI_Breast'
+split_inputs(output,input_folder=inputs)
+#l_mon=['01','02','03','04']
+#for mon_e in l_mon:
+#    split_inputs(output,input_folder=inputs+'/'+mon_e)
+
 
 #f_todo=open('todo.pkl','r')
 #todo_folder=pickle.load(f_todo)
