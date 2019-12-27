@@ -18,8 +18,20 @@ class Series_inf():
             except:
                 pass
             else:
-                self.PatientName=str(ds.PatientName)
-                self.SeriesNumber=str(ds.SeriesNumber)
+                try:
+                    self.PatientName=str(ds.PatientName)
+                except:
+                    print('ERROR: '+f_path)
+                    return False
+                else:
+                    pass
+                try:
+                    self.SeriesNumber=str(ds.SeriesNumber)
+                except:
+                    print('ERROR: '+f_path)
+                    return False
+                else:
+                    pass
                 #series description
                 try:
                     self.SeriesDescription=str(ds.SeriesDescription)
@@ -32,13 +44,6 @@ class Series_inf():
                     self.SliceThickness=str(ds.SliceThickness)
                 except:
                     self.SliceThickness=''
-                else:
-                    pass
-                #Spacing Between Slices
-                try:
-                    self.SpacingBetweenSlices=str(ds.SpacingBetweenSlices)
-                except:
-                    self.SpacingBetweenSlices=''
                 else:
                     pass
                 #get parameter from one file and then stop init
@@ -69,7 +74,7 @@ class Series_inf():
         #f_csv.writerow([self.PatientName,'S'+(self.SeriesNumber).zfill(4)+'_'+self.SeriesDescription,number,
         #                self.SliceThickness,self.SpacingBetweenSlices])
         f_csv.writerow([self.PatientName,os.path.basename(self.root),number,
-                        self.SliceThickness,self.SpacingBetweenSlices])
+                        self.SliceThickness])
         f.close()
         print('Summary in \''+self.root+'\' has been recorded!')
         pass
@@ -93,24 +98,24 @@ def batch_sum(root,savename):
     return
 
 def main():
-    root='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
-    root='G:/class_2019'
-    savefolder='/Users/luxi/Desktop/Tencent-intern/med_image/test1'
-    savefolder='G:/'
+    root='I:/CT_1'
+    root_list=['Nasopharyngeal','Lung','Colorectal','Breast','Neuroendocrine','Gastric','Gastrointestinal_stromal','Pancreatic']
+    root_list=['Cholangiocarcinoma','Hepatocellular_carcinoma']
+    savefolder='I:/CT_1'
     if not os.path.exists(savefolder):
         os.makefile(savefolder)
-
-    filename='summary2019'
-    savename=savefolder+'/'+filename+'.csv'
-    #print(savename)
-    #f=open(savename,'w')
-    #f.close()
-    f=open(savename,'w')
-    f_csv=csv.writer(f,lineterminator='\n')
-    f_csv.writerow(['Date and Patient','Series and Description','Number of Slices',
-                    'Slice Thickness','Spacing Between Silces'])
-    f.close()
-    batch_sum(root,savename)
+    for i in root_list:
+        filename='summary_'+i
+        savename=savefolder+'/'+filename+'.csv'
+        #print(savename)
+        #f=open(savename,'w')
+        #f.close()
+        f=open(savename,'w')
+        f_csv=csv.writer(f,lineterminator='\n')
+        f_csv.writerow(['Date and Patient','Series and Description','Number of Slices',
+                        'Slice Thickness'])
+        f.close()
+        batch_sum(root+'/'+i,savename)
 
 if __name__ == "__main__":
     main()

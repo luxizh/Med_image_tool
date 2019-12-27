@@ -92,7 +92,8 @@ class Medimage_tool():
             self.get_patient_info()
         except:
             print('Error: Cannot get patient information from'+self.filename)
-            input('Continue1')
+            with open('error.pkl','ab') as f:
+                pickle.dump('Error1:'+self.filename,f)
             return 0
         else:
             pass
@@ -101,7 +102,8 @@ class Medimage_tool():
             content=self.check_id(id_set)
         except:
             print('Error: Cannot check id from'+self.filename)
-            input('Continue2')
+            with open('error.pkl','ab') as f:
+                pickle.dump('Error2:'+self.filename,f)
         else:
             pass
         #anonymize
@@ -109,7 +111,8 @@ class Medimage_tool():
             self.anonymize()
         except:
             print('Error: Cannot anonymizing from '+self.filename)
-            input('Continue3')
+            with open('error.pkl','ab') as f:
+                pickle.dump('Error3:'+self.filename,f)
             return 0
         else:
             pass
@@ -118,7 +121,8 @@ class Medimage_tool():
             self.rename(s_z,i_z)
         except:
             print('Error: cannot rename file in '+self.filename)
-            input('Continue4')
+            with open('error.pkl','ab') as f:
+                pickle.dump('Error4:'+self.filename,f)
             return 0
         else:
             pass
@@ -138,7 +142,7 @@ def batch_pro(root,savefolder):
                 m=Medimage_tool(c_path,savefolder)
             except:
                 pass
-                
+                print('Error:cannot open!')
             else:
                 #m.auto_process()
                 content=m.auto_process(id_set=id_set_g)
@@ -218,23 +222,25 @@ output='G:/class_2019'
 #split_inputs(output,input_folder=inputs)
 inputs='I:/乳腺MRI-深圳市人民医院'
 output='I:/MRI_Breast'
-'''
+
 f=open('todo.pkl','rb')
 l_inputs=pickle.load(f)
 f.close()
 print(l_inputs)
 split_inputs(output,input_folder=inputs,l_folder=l_inputs)
-'''
+
 '''
 inputs='H:/普美显数据-腾讯-拜耳/2019'
 l_mon=['06-补','07','08','09','10','11']
 for mon_e in l_mon:
     split_inputs(output,input_folder=inputs+'/'+mon_e)
 '''
-
+'''
 inputs='I:/乳腺MRI-深圳市人民医院'
 output='I:/MRI_Breast'
-split_inputs(output,input_folder=inputs)
+split_inputs(output,input_folder=inputs,l_folder=['228976'])
+'''
+#split_inputs(output,input_folder=inputs)
 #l_mon=['01','02','03','04']
 #for mon_e in l_mon:
 #    split_inputs(output,input_folder=inputs+'/'+mon_e)
