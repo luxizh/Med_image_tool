@@ -84,7 +84,7 @@ class Medimage_tool():
         except:
             print('Error: Save Error!')
             with open('error.pkl','ab') as f:
-                pickle.dump(s_path+'/'+self.filename,f)
+                pickle.dump('Error0:'+s_path+'/'+self.filename,f)
     def auto_process(self,id_set=set(),s_z=4,i_z=5):
         #s_z,i_z:zero fill series and instance
         #get information
@@ -92,6 +92,7 @@ class Medimage_tool():
             self.get_patient_info()
         except:
             print('Error: Cannot get patient information from'+self.filename)
+            input('Continue1')
             return 0
         else:
             pass
@@ -100,6 +101,7 @@ class Medimage_tool():
             content=self.check_id(id_set)
         except:
             print('Error: Cannot check id from'+self.filename)
+            input('Continue2')
         else:
             pass
         #anonymize
@@ -107,6 +109,7 @@ class Medimage_tool():
             self.anonymize()
         except:
             print('Error: Cannot anonymizing from '+self.filename)
+            input('Continue3')
             return 0
         else:
             pass
@@ -115,6 +118,7 @@ class Medimage_tool():
             self.rename(s_z,i_z)
         except:
             print('Error: cannot rename file in '+self.filename)
+            input('Continue4')
             return 0
         else:
             pass
@@ -134,6 +138,7 @@ def batch_pro(root,savefolder):
                 m=Medimage_tool(c_path,savefolder)
             except:
                 pass
+                
             else:
                 #m.auto_process()
                 content=m.auto_process(id_set=id_set_g)

@@ -77,8 +77,17 @@ b='1'
 print(a.zfill(3))
 print(b.zfill(3))
 '''
+'''
 import imghdr
 if imghdr.what('/Users/luxi/Desktop/Tencent-intern/med_image/test/IMG-0001-00001.dcm'):
     print('img')
 else:
     print(None)
+'''
+import pickle
+f=open('todo.pkl','rb')
+a=pickle.load(f)
+print(a,len(a))
+f.close()
+b=set(a)
+print(len(b))
